@@ -23,3 +23,5 @@ jobs:
       - run: python scripts/verify_pins.py
       - run: python -m soc_kb.cli validate
       - run: pytest -q
+      - run: docker build --tag atc-soc-kb:test .
+      - run: docker run --rm atc-soc-kb:test
