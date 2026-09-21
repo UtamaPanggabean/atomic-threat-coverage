@@ -1,23 +1,9 @@
-FROM alpine
-COPY ./ /app
+FROM python:3.12.11-alpine3.22
+
 WORKDIR /app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+COPY ./ /app
 
-RUN apk update; \
-    apk add --update \
-    python3 \
-    python3-dev \
-    py-pip \
-    gcc \
-    musl-dev \
-    bash;
-
-RUN pip3 install -r requirements.txt;
-    
-RUN apk del python3-dev \
-    gcc \
-    musl-dev;
-
-RUN rm -rf /var/cache/apk/* ; \
-    rm -rf Atomic_Threat_Coverage;
-
-CMD /app/docker-entrypoint.sh
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
+CMD ["validate"]

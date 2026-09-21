@@ -1,0 +1,5 @@
+data/atc_data c3f59bfdc1619d9d645d32342cba0c440b13a725
+detection_rules/sigma 2e8fd89f82d9104c1b30321a307254ddeea17de2
+triggers/atomic-red-team 388942adbd9641f4dfdcf079d7efe9a75ec0ac43
+response/atc_react 323c3274a9c801e72ef6a88e101e83be236028c2
+mitigation/atc-mitigation a110446fb41cde306b0bca6eb2fa35933d2c7881

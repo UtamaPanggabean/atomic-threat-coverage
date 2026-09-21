@@ -1,9 +1,11 @@
 [submodule "detection_rules/sigma"]
 	path = detection_rules/sigma
-	url = https://github.com/Neo23x0/sigma
+	url = https://github.com/SigmaHQ/sigma.git
+	branch = master
 [submodule "triggers/atomic-red-team"]
 	path = triggers/atomic-red-team
-	url = https://github.com/redcanaryco/atomic-red-team
+	url = https://github.com/redcanaryco/atomic-red-team.git
+	branch = master
 [submodule "mitigation/atc-mitigation"]
 	path = mitigation/atc-mitigation
 	url = https://github.com/atc-project/atc-mitigation
@@ -12,4 +14,5 @@
 	url = https://github.com/atc-project/atc-react
 [submodule "data/atc_data"]
 	path = data/atc_data
-	url = https://github.com/atc-project/atc-data
+	url = https://github.com/UtamaPanggabean/atc-data.git
+	branch = platform/confluence-pilot

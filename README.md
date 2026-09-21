@@ -2,6 +2,8 @@
 
 # Atomic Threat Coverage
 
+> **Modernized Confluence-only fork:** this branch builds a SOC research knowledge base and intentionally does not deploy to Elasticsearch, Kibana, TheHive, a SIEM, or any other external security system. See [docs/CONFLUENCE_KB.md](docs/CONFLUENCE_KB.md) for validation, dry-run, scoped publishing, and Atomic Red Team safety controls.
+
 Actionable analytics designed to combat threats based on MITRE's [ATT&CK](https://attack.mitre.org/).
 
 ![](images/logo_v1.png)

@@ -1,10 +1,6 @@
-pyyaml
-requests
-jinja2
-elasticsearch
-pytest
-stix2<3.0
-mkdocs
-mkdocs-awesome-pages-plugin
-mkdocs-exclude
-mkdocs-windmill
+PyYAML==6.0.2
+requests==2.32.5
+certifi==2026.7.22
+charset-normalizer==3.5.1
+idna==3.20
+urllib3==2.6.3

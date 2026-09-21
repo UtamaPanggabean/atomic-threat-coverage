@@ -6,6 +6,8 @@ _*
 .pytest_cache
 # Ignore local configuration
 config.yml
+.venv/
+confluence-plan.json
 Atomic_Threat_Coverage_test
 detection_rules/sigma
 triggers/atomic-red-team
