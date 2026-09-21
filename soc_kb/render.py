@@ -35,7 +35,7 @@ def table(rows: list[tuple[str, Any]]) -> str:
 
 def notice(title: str, text: str) -> str:
     return (
-        '<div class="confluence-information-macro confluence-information-macro-warning">'
+        '<div data-type="panel-warning">'
         f"<p><strong>{esc(title)}</strong></p>{paragraph(text)}</div>"
     )
 
