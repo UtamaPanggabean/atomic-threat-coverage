@@ -31,7 +31,11 @@ def _yaml(path: Path) -> dict[str, Any]:
 def _git_yaml(repository: Path, relative: str) -> dict[str, Any]:
     """Read pinned content from Git, even if endpoint protection hides a test file."""
     import subprocess
+    import shutil
 
+    path = repository / relative
+    if not shutil.which("git"):
+        return _yaml(path)
     result = subprocess.run(
         ["git", "-C", str(repository), "show", f"HEAD:{relative}"],
         check=False, capture_output=True,
@@ -119,16 +123,20 @@ def build_detection_pages(repo: Path, revision: str) -> list[PageSpec]:
 
 def build_trigger_pages(repo: Path, revision: str) -> list[PageSpec]:
     import subprocess
+    import shutil
 
     atomic = repo / "triggers" / "atomic-red-team"
     pages = [_category(
         "triggers", "Use Case Testing (Atomic Red Team)", ROOT_KEY, "triggers",
         "Authorized lab-only detection validation procedures mapped to MITRE ATT&CK. Review scope, approvals, isolation, cleanup, and telemetry before execution.",
     )]
-    listing = subprocess.run(
-        ["git", "-C", str(atomic), "ls-tree", "-r", "--name-only", "HEAD", "atomics"],
-        check=True, capture_output=True, text=True,
-    ).stdout.splitlines()
+    if shutil.which("git"):
+        listing = subprocess.run(
+            ["git", "-C", str(atomic), "ls-tree", "-r", "--name-only", "HEAD", "atomics"],
+            check=True, capture_output=True, text=True,
+        ).stdout.splitlines()
+    else:
+        listing = [path.relative_to(atomic).as_posix() for path in (atomic / "atomics").glob("T*/*.yaml")]
     technique_files = []
     for name in listing:
         parts = Path(name).parts
@@ -244,21 +252,16 @@ def build_pages(repo: Path, sections: Iterable[str] = SECTION_ORDER) -> list[Pag
 
 
 def submodule_revisions(repo: Path) -> dict[str, str]:
-    import subprocess
-
-    paths = (
-        "data/atc_data", "detection_rules/sigma", "triggers/atomic-red-team",
-        "response/atc_react", "mitigation/atc-mitigation",
-    )
+    lock = repo / "submodules.lock"
+    if not lock.is_file():
+        raise ValidationError("submodules.lock is missing")
     revisions = {}
-    for relative in paths:
-        result = subprocess.run(
-            ["git", "-C", str(repo / relative), "rev-parse", "HEAD"],
-            check=False, capture_output=True, text=True,
-        )
-        if result.returncode:
-            raise ValidationError(f"submodule is not initialized: {relative}")
-        revisions[relative] = result.stdout.strip()
+    for line in lock.read_text(encoding="utf-8").splitlines():
+        if line.strip() and not line.startswith("#"):
+            relative, revision = line.split()
+            if not (repo / relative).is_dir():
+                raise ValidationError(f"submodule is not initialized: {relative}")
+            revisions[relative] = revision
     return revisions
 
 
